@@ -1,4 +1,4 @@
-const NotesView = require('./notesView')
+const NotesView = require('./notesView');
 const NotesModel = require("./notesModel.js");
 let model = new NotesModel();
 
