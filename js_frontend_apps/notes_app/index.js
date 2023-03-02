@@ -1,6 +1,8 @@
 const NotesView = require('./notesView');
-const NotesModel = require("./notesModel.js");
-let model = new NotesModel();
+const NotesModel = require("./notesModel");
+const NotesClient = require('./notesClient')
 
+const model = new NotesModel();
+const client = new NotesClient();
 
-const view = new NotesView(model);
+const view = new NotesView(model, client);

@@ -5,6 +5,9 @@
 const fs = require('fs');
 const NotesModel = require('./notesModel')
 const NotesView = require('./notesView');
+const NotesClient = require('./notesClient')
+
+jest.mock("./notesClient.js");
 
 describe('Notes view', () => {
 
@@ -49,5 +52,22 @@ describe('Notes view', () => {
     view.displayNotes();
 
     expect(document.querySelectorAll('div.note').length).toEqual(2);
+  });
+
+  it("displays the notes from API", () => {
+    document.body.innerHTML = fs.readFileSync("./index.html");
+    NotesClient.mockClear();
+
+    const model = new NotesModel();
+    const mockClient = new NotesClient();
+
+    mockClient.loadNotes.mockImplementation((callback) =>
+      callback(["Note one"])
+    );
+    const view = new NotesView(model, mockClient);
+
+    view.displayNotesFromApi();
+    const notes = document.querySelectorAll(".note");
+    expect(notes.length).toBe(1);
   });
 });
